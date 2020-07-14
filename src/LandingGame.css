@@ -1,0 +1,20 @@
+.display-5 {
+    text-align:center;
+    color: white;
+}
+.bodyLanding{
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    
+}
+.inputNickname{
+    display: grid ;
+    grid-template-columns: repeat(3,1fr);
+}
+.input-group{
+    grid-column:2;
+}
+.rulestitle{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
