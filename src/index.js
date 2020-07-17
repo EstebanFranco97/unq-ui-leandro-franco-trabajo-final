@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import LandingGame from './LandingGame.js'
 import Singlegame from './Singlegame.js'
-import Pick from './Pick.js'
+import Pick from './Choise.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <LandingGame />
+    <Singlegame />
   </React.StrictMode>,
   document.getElementById('root')
 );
