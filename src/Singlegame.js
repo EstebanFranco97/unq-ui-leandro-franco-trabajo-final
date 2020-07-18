@@ -1,129 +1,146 @@
 import React from 'react';
 import './Singlegame.css'
-import { useState } from 'react';
 import ChoiseSelectBar from './ChoisesSelectBar'
   
-export default function Singlegame() {
-  // const playerID =props.match.params.id
-  const[userChoise,setUserChoise] = useState(undefined);
-  const[iaChoise,setIaChoise] = useState(undefined);
-  const[winner,setWinner] = useState (undefined);
-  const choices = ["paper","rock","scissors","lizard","spock"];
-  const [userScore,setUserScore] = useState(0)
-  const [iaScore,setIaScore] = useState(0)
-  const [tieScore,setTieScore] = useState(0)
-  //  const choices  =  {
-    //                      rock : {name: "Rock", defeats: ["scissors","lizard"]},
-    //                      paper: {name: "Paper", defeats: ["rock", "spock"]},
-    //                      scissors: {name: "Scissors", defeats: ["paper", "lizard"]},
-    //                      lizard: {name: "Lizard", defeats:["paper","spock"]},
-    //                      spock: {name: "Spock", defeats:["scissors","rock"]}
-    //                   };
-  const updateScore = ()=>{
-    if(winner ==="tie"){
-        setTieScore(tieScore+1)
-    }
-    else if (winner === "sheldon"){
-              setUserScore(userScore+1)
-              return (
-                <div>{userChoise} defeats {iaChoise}</div>
-              );
-        }
-         else{
-              setIaScore(iaScore+1)
-              return (
-                <div>{iaChoise} defeats {userChoise}</div>
-              );
-        }
-    }
 
-  function AIRandomPick (){
-    return choices[Math.floor(Math.random()*choices.length)];
+export default class Singlegame extends React.Component {
+  constructor(props){
+      super(props);
+      this.state={
+          player:{
+              playerId : "",
+              playerSelecton : null 
+              },
+          ia:{
+              iaId : "sheldon",
+              iaSelection : null
+          },
+          score:{
+              winner : "",
+              playerWins :0 ,
+              playerloses :0 ,
+              tie : 0
+          },
+          start : false,
+          choices:["rock","paper","scissors","lizard","spock"]
+     
+        }
+        
+  }
+ 
+  AIRandomPick = () =>{
+    return  this.state.choices[Math.floor(Math.random()*this.state.choices.length)];
   }
   
-  function getWinner (){
-    if(userChoise===iaChoise){
-        setWinner ("tie")
-    }
-    else
+
+
+  getWinner =() =>{
+      if( this.state.player.playerSelecton===this.state.ia.iaSelection){
+          this.setState({
+              score:{
+                      winner:"tie",
+              }
+          })
+      }
+      else
           if(
-            (userChoise ==="rock" && (iaChoise ==="scissors"||iaChoise ==="lizard"))
+          (this.state.player.playerSelecton ==="rock" && (this.state.ia.iaSelection ==="scissors"||this.state.ia.iaSelection ==="lizard"))
             ||
-            (userChoise ==="paper" && (iaChoise ==="rock"||iaChoise ==="spock"))
+          (this.state.player.playerSelecton ==="paper" && (this.state.ia.iaSelection ==="rock"||this.state.ia.iaSelection ==="spock"))
             ||
-            (userChoise ==="scissors" && (iaChoise ==="paper"||iaChoise ==="lizard"))
+          (this.state.player.playerSelecton ==="scissors" && (this.state.ia.iaSelection ==="paper"||this.state.ia.iaSelection ==="lizard"))
             ||
-            (userChoise ==="lizard" && (iaChoise ==="paper"||iaChoise ==="spock"))
+          (this.state.player.playerSelecton ==="lizard" && (this.state.ia.iaSelection ==="paper"||this.state.ia.iaSelection ==="spock"))
             ||
-            (userChoise ==="spock" && (iaChoise ==="rock"||iaChoise ==="scissors"))
+          (this.state.player.playerSelecton ==="spock" && (this.state.ia.iaSelection ==="rock"||this.state.ia.iaSelection ==="scissors"))
           )
           {
-            setWinner("user")
+            this.setState({
+              score:{
+                      winner:"user",
+              }
+            })
           }
           else
           {
-            setWinner("sheldon")  
+            this.setState({
+              score:{
+                      winner:"skynet",
+              }
+            })
           }
-       
    }
-  
-
-
-  const selectPlayerChoise = (choice) => {
-    setIaChoise(AIRandomPick())
-    setUserChoise(choice)
-     // updateScore()
-  }
-  // const resetGame = () =>{
-    
-  // }
-
-  console.log(userChoise)
-  console.log(AIRandomPick())
-  console.log(winner)
- 
-  return(
-    <div className ="containerGame">
-      <div className = "headerSinglegame">
-          <div className ="jumbotron jumbotron-fluid">
-             <h1 class="display-5 fontsize">Rock Paper Scissors Lizard Spock</h1>
-          </div>              
-      </div>
-
-      <div className = "bodySinglegame">
-          <div className ="gameInfo">
-              <div className ="scoreInfo">
-                  <p>score</p>
-                  <p>userChoise={userChoise}</p>
-                  <p>iaChoise = {iaChoise}</p>
-                  <p>winner = {winner}</p> 
-              </div>
-              <button type ="button" onClick ={getWinner} className="button-game"> play </button>
-             
-              <ChoiseSelectBar selectChoise={selectPlayerChoise }/>
-          </div>
-          <div className = "gameButtons">
-              <button type ="button" className ="button-game button-rematch"> Rematch </button>
-              <button type ="button" className ="button-game button-home" > Home </button>
-          </div>
-          <div className = "winner scoreInfo">
-                  
-          </div>
-      </div>
+   
+  updateScore = () =>{
+    if (this.state.score.winner == "tie"){
+        this.setState ({score:{tie :this.state.score.tie+1}})
+    }
+    else{
+      if(this.state.score.winner == "user"){
+        this.setState ({ score:{playerWins :this.state.score.playerWins+1}
+      })
       
-      <div className = "footerSinglegame">
+      }
+      else{
+            this.setState ({ score:{playerloses :this.state.score.playerloses +1}
+            })
+      }
+    }  
+ }
+  
+  selectPlayerChoise = (choice) =>{
+      this.setState (prevState=>({
+                    player:{
+                            ...prevState.player,
+                            playerSelecton : choice
+                           },
+                    ia:{
+                        ...prevState.ia,
+                        iaSelection : this.AIRandomPick()
+                        }
+                    }),
+                    () => {
+                     this.getWinner ()
+                    }
+    )
+  }
 
-      </div>
+  render(){
+   const{player,ia,score,choices}=this.state
+
+    return(
+      <div className ="containerGame">
+        <div className = "headerSinglegame">
+            <div className ="jumbotron jumbotron-fluid">
+              <h1 className="display-5 fontsize">Rock Paper Scissors Lizard Spock</h1>
+            </div>              
+        </div>
+
+        <div className = "bodySinglegame">
+            <div className ="gameInfo">
+                <div className ="scoreInfo">
+                    <p>userSelection ={player.playerSelecton}</p>
+                    <p>iaSelection ={ia.iaSelection}</p>
+                    <p>wins={score.playerWins}</p>
+                    <p>loses={score.playerloses}</p>
+                    <p>winner={score.winner}</p> 
+                </div>
+                <ChoiseSelectBar selectChoise={this.selectPlayerChoise}/>
+            </div>
+            <div className = "gameButtons">
+                <button type ="button" className ="button-game button-rematch"> Rematch </button>
+                <button type ="button" className ="button-game button-home" > Home </button>
+            </div>
+            <div className = "winner scoreInfo">
+                  
+           </div>
+        </div>
+
+        <div className = "footerSinglegame">
+
+        </div>
       
     </div>
-      
-      // /*  cosas para agregar a la wea esta
-      // <button type ="button" onClick ={getWinner}> rematch </button>
-      // <button type ="button" onClick ={getWinner}> rules </button>
-      // <button type ="button" onClick ={getWinner}> rematch </button> 
-
-           
-    
-   )
-
+    )
+  }
 }
