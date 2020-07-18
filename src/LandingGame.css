@@ -1,20 +1,50 @@
+.containerLanding{
+    background-image: url(http://getwallpapers.com/wallpaper/full/f/1/f/90919.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 1000px;
+  color:white;
+  min-width:300px;
+}
+
 .display-5 {
     text-align:center;
     color: white;
 }
-.bodyLanding{
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+.bodyLanding {
+    font-family:'Press Start 2P', cursive;
+    font-size:80%;
+    text-align:center;
+    align-items: center;
     
 }
 .inputNickname{
     display: grid ;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(6,1fr);
 }
 .input-group{
-    grid-column:2;
+    grid-column:3/5;
+    width: 100px;
+    font-size: 100%;
 }
 .rulestitle{
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+}
+.my-4{
+    background-color: honeydew;
+    height:1px ;
+}
+.button-landing{
+    height:50px;
+    margin:5px
+}
+.gamemodes{
+    margin: auto;
+    justify-self: center;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: ivory;
+    width: 450px;
+    padding: 5px;
+    min-width: 250px;
 }

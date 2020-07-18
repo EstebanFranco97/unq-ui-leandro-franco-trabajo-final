@@ -7,11 +7,12 @@ import Pick from './Choise.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import App from './App.js'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Singlegame />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App/>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
