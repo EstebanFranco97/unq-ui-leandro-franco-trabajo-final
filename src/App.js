@@ -14,7 +14,6 @@ export default class App extends React.Component {
             <Route exact path= '/' component={LandingGame}/>
             <Route exact path= '/single/:id' component={Singlegame}/>
             <Route exact path= '/versus/:id' component={VersusGame}/>         
-            {/* <Route path='*'  component={NotFoundPage}/>*/}
         </Switch> 
       </Router>
     );

@@ -3,7 +3,7 @@
     background-image: url(http://getwallpapers.com/wallpaper/full/f/1/f/90919.jpg);
     background-position: center center;
     background-repeat: no-repeat;
-    height: 1400px;
+    height: 1050px;
     background-size: cover;
     color: white;
     font-family: 'Press Start 2P', cursive;
@@ -132,4 +132,41 @@
 .winnerVs{
     grid-row :3;
     grid-column:12
+}
+
+.player2nickName{
+    display:grid;
+    grid-template-columns: repeat(5,4fr);
+    grid-template-rows: repeat(1,1fr);
+    grid-gap: 5px;
+    grid-auto-rows: minmax(100px,auto);
+}
+
+.player2title{
+    grid-column:3;
+    grid-row:2;
+   text-align: center; 
+   font-size: 20px;
+}
+
+.chimpsImg{
+    margin: 10px;
+    text-align: center;
+}
+.chimps {
+    width:500px
+}
+
+.nickForm{
+    margin: 20px;
+    text-align: center;
+    display: grid ;
+    grid-template-columns: repeat(5,1fr);
+}
+.chooseNick2{
+    grid-column: 3;
+}
+.buttonPlay{
+    grid-column:4;
+    text-align: center;
 }

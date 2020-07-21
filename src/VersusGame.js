@@ -1,10 +1,9 @@
 import React from 'react';
-import './Singlegame.css'
 import ChoiseSelectBar from './ChoisesSelectBar'
 import HeaderGame from './HeaderGame';
 import FooterGame from './FooterGame';
 import Choise from './Choise';
-import './VersusGame.css'
+import './css/VersusGame.css'
 
 
 export default class Versusgame extends React.Component {
@@ -31,14 +30,17 @@ export default class Versusgame extends React.Component {
             showplayer2nickname:true
             }
     }
-    
+  
+
   componentDidMount = () =>{
-    this.setState({
+    this.setState(prevState=>({
                     player:{
+                            ...prevState.playerId,
                             playerId : this.props.match.params.id
                            }
-    })
+    }))
   }
+
 
   getWinner =() =>{
       if( this.state.player.playerSelection===this.state.player2.player2Selection){
@@ -86,21 +88,20 @@ export default class Versusgame extends React.Component {
 
   updateResult = () =>{
       switch (this.state.winner){
-          case "" : return <p>waiting both choose </p> 
-          case "tie":return<p>game tied</p> 
+          case "" : return <p>Waiting Both Choose </p> 
+          case "tie" :return<p>Game Tied</p> 
           case "player1" :return<p>{this.props.match.params.id} wins {this.state.player.playerSelection} defeats {this.state.player2.player2Selection}</p>
           case "player2" :return<p> player2 wins {this.state.player2.player2Selection} defeats {this.state.player.playerSelection}</p>
       }
   }
+
 
   updateScore = () =>{
     if (this.state.winner === "tie"){
         this.setState (prevState =>({
             ...prevState.tie,
             tie : this.state.tie +1
-        })
-       
-        )
+        }))
     }
     else{
       if(this.state.winner === "player2"){
@@ -109,17 +110,15 @@ export default class Versusgame extends React.Component {
             player2wins : this.state.player2wins +1,
             ...prevState.playerloses,
             playerloses : this.state.player2loses +1,
-        })
-        )
+        }))
       }
       else{
-         this.setState (prevState =>({
-            ...prevState.player2loses,
-            player2loses : this.state.player2loses+1,
-            ...prevState.playerwins,
-            playerwins : this.state.playerwins +1
-        })
-        )
+          this.setState (prevState =>({
+              ...prevState.player2loses,
+              player2loses : this.state.player2loses+1,
+              ...prevState.playerwins,
+              playerwins : this.state.playerwins +1
+          }))
       }
     }  
   }
@@ -133,38 +132,29 @@ export default class Versusgame extends React.Component {
                            },
                     showTurnPlayer2:true,
                     showTurnPlayer1:false
-                    }),
-                    () => {
-                    //  if(this.state.player2.player2Selection === null){
-                        
-                    //  }
-                     }
-    )
-    console.log(this.state.player.playerSelection)
+                    }))
   }
 
 
   selectPlayersChoise2 = (choice) =>{
-    this.setState (prevState=>({
-                  player2:{
-                      ...prevState.player2,
-                      player2Selection : choice
-                  },
-                  ...prevState.showTurnPlayer2,
-                  showTurnPlayer2: false,
-                  ...prevState.showResult,
-                  showResult: true,
-                  }),
-                  () => {
-                   this.getWinner ()
-                   }
-  )
-  console.log(this.state.player2.player2Selection)
-  
-}
+      this.setState (prevState=>({
+                    player2:{
+                        ...prevState.player2,
+                       player2Selection : choice
+                   },
+                   ...prevState.showTurnPlayer2,
+                   showTurnPlayer2: false,
+                   ...prevState.showResult,
+                   showResult: true,
+                   }),
+                   () => {
+                    this.getWinner ()
+                    }
+      )
+  }
 
   resetGame=()=>{
-    this.setState ({
+    this.setState (prevState=>({
                    player:{
                            playerSelection : null
                    },
@@ -177,7 +167,7 @@ export default class Versusgame extends React.Component {
                    playerloses:0,
                    player2loses:0,
                    tie:0
-                  })
+                  }))
   }
   
   playAgain=()=>{
@@ -198,30 +188,50 @@ export default class Versusgame extends React.Component {
 
   click = () => this.props.history.push('/');
 
+  clickPlay = () =>{
+      this.setState ({
+                      showplayer2nickname:false,
+                      showTurnPlayer1:true
+      })
+
+  }
+
+
+  handleChange = (event) => {
+      this.setState({player2:{
+                              player2Id:event.target.value
+                             }
+                    })
+  }
+
   
   
   render(){
-   const{  playerwins,
-           player2wins,
-           playerloses,
-           player2loses,
-           tie,result,choices}=this.state
+   const{ playerwins,player2wins,playerloses,player2loses,tie}=this.state
 
     return(
       <div className ="containerVersusGame">
-        <div className = "headerSinglegame">
+        <div className = "headerVersusGame">
             <HeaderGame/>             
         </div>
         <div className = "bodyVersusgame">
             {
               this.state.showplayer2nickname?
                 <div className = "player2nickname">
-                   <div class="input-group input-group-sm  mb-3" >
-                            <input type="text" class="form-control " placeholder="nickname" aria-label="nickname" aria-describedby="basic-addon2" />
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary button-game" type="button">Select</button>
-                            </div>
-                        </div>
+                    <div className ="player2title">
+                        VersusMode
+                    </div>
+                    <div className = "chimpsImg">
+                        <img className = "chimps" src ={"https://media.metrolatam.com/2018/08/20/monav-46652a5d1ae1e4ac6b2780937eebf714-1200x800.jpg"}/>
+                    </div>
+                    <div className ="nickForm">
+                        <p className ="chooseNick2">Choose Player 2 Nick Name</p>
+                        <input type="text" class="form-control" placeholder="nickname" aria-label="nickname" aria-describedby="basic-addon2" onChange={this.handleChange} />
+                    </div>
+                    <div className = "buttonPlay">
+                        <button type ="button" className ="button-game" onClick ={()=>this.clickPlay()} > Play </button>
+                    </div>                    
+                    
                 </div>
             :null
             }                            
@@ -250,7 +260,7 @@ export default class Versusgame extends React.Component {
             {
               this.state.showTurnPlayer2?   
                 <div className = "player2turn">
-                    <p className = "turnPlayer">player 2 Turn</p>
+                    <p className = "turnPlayer">{this.state.player2.player2Id} Turn</p>
                     <div className ="infoScore">
                         <p>score</p>
                         <p>wins1={playerwins}</p>
@@ -301,7 +311,7 @@ export default class Versusgame extends React.Component {
             } 
         </div>
 
-        <div className = "footerSinglegame">
+        <div className = "footerVsGame">
              <FooterGame/>
         </div>
       

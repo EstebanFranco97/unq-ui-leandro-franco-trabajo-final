@@ -1,9 +1,11 @@
 import React from 'react';
-import './Singlegame.css';
+import './css/Singlegame.css';
 import ChoiseSelectBar from './ChoisesSelectBar';
 import HeaderGame from './HeaderGame';
 import FooterGame from './FooterGame';
 import Choise from './Choise';
+
+
 
 
 export default class Singlegame extends React.Component {
@@ -11,7 +13,7 @@ export default class Singlegame extends React.Component {
         super(props);
         this.state={
             player:{
-                playerId :this.props.match.params.id,
+                playerId : "",
                 playerSelection : null 
             },
             ai:{
@@ -27,6 +29,9 @@ export default class Singlegame extends React.Component {
             showResultGame:false
         }
     }
+   
+    
+    
     
   componentDidMount = () =>{
     this.setState(prevState=>({
@@ -218,7 +223,7 @@ export default class Singlegame extends React.Component {
                     <p>tie={tie}</p>
                 </div>
                 <div className = "playerChoice">
-                    <Choise choice = {this.state.player.playerSelection}/>;
+                    <Choise choice = {this.state.player.playerSelection}/>
                     { this.props.match.params.id}
                 </div>
                 <div className = "aiChoice">

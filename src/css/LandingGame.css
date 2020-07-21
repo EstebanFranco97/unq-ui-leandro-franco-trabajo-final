@@ -19,20 +19,17 @@
     
 }
 .inputNickname{
+    text-align: center;
     display: grid ;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(5,1fr);
 }
-.input-group{
-    grid-column:3/5;
-    width: 100px;
+.form-control{
+    grid-column:3;
+    width: 300px;
     font-size: 100%;
 }
 .rulestitle{
     text-align: center;
-}
-.my-4{
-    background-color: honeydew;
-    height:1px ;
 }
 .button-landing{
     height:50px;

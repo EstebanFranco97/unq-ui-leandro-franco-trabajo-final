@@ -1,6 +1,6 @@
 import React from 'react';
 import Choise from './Choise'
-import './ChoisesSelectBar.css'
+import './css/ChoisesSelectBar.css'
 
 export default function ChoiseSelectBar({selectChoise}) {
     

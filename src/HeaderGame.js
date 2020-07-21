@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './HeaderGame.css'
+import './css/HeaderGame.css'
 
 
 export default function HeaderGame(){

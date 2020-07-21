@@ -1,30 +1,43 @@
 import React,{useState} from 'react';
-import './LandingGame.css'
 import HeaderGame from './HeaderGame';
 import FooterGame from './FooterGame';
+import './css/LandingGame.css'
+import {useHistory} from 'react-router-dom'
+
+
+
 
 export default function LandingGame(props){
 
     const[nickName,setNickName] = useState("")
-    const[choosedNickName,setChoosedNickName] = useState (false)
+    const history = useHistory()
 
     const handleChange = (event) =>{
-        setNickName(event.target.placeholder)
-        // checkChoosedNicKName
+        setNickName(event.target.value)
+     
     }
 
-
-    const checkChoosedNicKName = () =>{
-        if (nickName === ""){
-            setChoosedNickName(true)
-        }
-    }
 
     const clickSingleMode = () =>{
-        if(choosedNickName === false){
+        if(nickName.length === 0){
+            alert("Please choose a nickname before continue")
         }
-        // props.history.push('/single/'.concat(nickName));
+        else{
+        history.push('/single/'.concat(nickName));
+        }
     }
+
+    
+    const clickVersusMode = () =>{
+        if(nickName.length === 0){
+            alert("Please choose a nickname before continue")
+        }
+        else{
+        history.push('/versus/'.concat(nickName));
+        }
+    }
+
+    
 
     return (
           <>
@@ -37,17 +50,12 @@ export default function LandingGame(props){
                 <div className ="bodyLanding">
                     <p>Select your NickName</p>
                     <div className ="inputNickname">
-                        <div class="input-group input-group-sm  mb-3" >
-                            <input type="text" class="form-control " placeholder={nickName} aria-label="nickname" aria-describedby="basic-addon2"  onChange={handleChange}/>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary button-game" type="button">Select</button>
-                            </div>
-                        </div>
+                        <input type="text" class="form-control" placeholder="nickname" aria-label="nickname" aria-describedby="basic-addon2"  onChange={handleChange}/>
                     </div>
                     <div className ="gamemodes">
                         <p>Choose Game mode</p>
-                        <button to='./single' type="button" className=" button-game button-landing"onClick={clickSingleMode}>SingleMode</button>
-                        <button type="button" className="button-game button-landing">VersusMode</button>
+                        <button type="button" className=" button-game button-landing" onClick={clickSingleMode}>SingleMode</button>
+                        <button type="button" className="button-game button-landing" onClick={clickVersusMode} >VersusMode</button>
                     </div>
                     <p>Rules</p>
                     <img src="https://zupher.files.wordpress.com/2012/02/bigbang51711.jpg" class="img-fluid rounded mx-auto d-block img-thumbnail" alt="Responsive image" />
