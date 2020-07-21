@@ -1,53 +1,47 @@
-# Título del Proyecto
-
-_Acá va un párrafo que describa lo que es el proyecto_
-
-## Comenzando 🚀
-
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
-
-Mira **Deployment** para conocer como desplegar el proyecto.
+# Rock Paper Scissors Lizard Spock
 
 
-### Pre-requisitos 📋
+## Proyect Info 🚀
 
-_Que cosas necesitas para instalar el software y como instalarlas_
-
+_This Proyect is based on the game Shown in the Serie "The Big Bang Theory "
 ```
-Da un ejemplo
+https://youtu.be/Kov2G0GouBw
 ```
+### Pre-requisites 📋
 
-### Instalación 🔧
-
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
-
-_Dí cómo será ese paso_
-
+_NodeJS 
 ```
-Da un ejemplo
+- https://nodejs.org/es/
+```
+_//IMPORTANT//
+```
+After node Installation , you would notice you have some additionals programs like Visual Studio Code .
 ```
 
-_Y repite_
+### Installation 🔧
+
+_ First : Clone or fork this repository 'https://github.com/DoomSlayer01/unq-ui-leandro-franco-trabajo-final'
+
+_Second: Open your terminal, then you  must position yourself in this repository folder and type 
 
 ```
-hasta finalizar
+ `npm install`
+```
+_Third: After installation  just type
+```
+ `npm start`
+```
+_Finally: Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+_That's it ,you are ready to run the app in dev mode.
+
+### Windows Problems 🛠️
+
+- Trying to run this proyect by the first time , i had some problems , you might solve them adding to your 
+  system environment variables in Path -> edit ->new    
+```
+ C:\Users\Administrador\AppData\Roaming\npm
 ```
 
 
-
-
-## Despliegue 📦
-
-_Agrega notas adicionales sobre como hacer deploy_
-
-## Construido con 🛠️
-
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
