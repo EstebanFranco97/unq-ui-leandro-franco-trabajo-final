@@ -1,25 +1,44 @@
-import React from 'react';
-import { Link,Redirect } from 'react-router-dom';
-
+import React,{useState} from 'react';
 import './LandingGame.css'
 import HeaderGame from './HeaderGame';
+import FooterGame from './FooterGame';
 
-export default class LandingGame extends React.Component{
+export default function LandingGame(props){
 
-    render (){
-        return (
+    const[nickName,setNickName] = useState("")
+    const[choosedNickName,setChoosedNickName] = useState (false)
+
+    const handleChange = (event) =>{
+        setNickName(event.target.placeholder)
+        // checkChoosedNicKName
+    }
+
+
+    const checkChoosedNicKName = () =>{
+        if (nickName === ""){
+            setChoosedNickName(true)
+        }
+    }
+
+    const clickSingleMode = () =>{
+        if(choosedNickName === false){
+        }
+        // props.history.push('/single/'.concat(nickName));
+    }
+
+    return (
           <>
             <div className = "containerLanding">
-                
+
                 <div className ="headerLanding">
                     <HeaderGame/>
-                </div>    
+                </div>
 
-                <div className ="bodyLanding">  
+                <div className ="bodyLanding">
                     <p>Select your NickName</p>
-                    <div className ="inputNickname">                 
+                    <div className ="inputNickname">
                         <div class="input-group input-group-sm  mb-3" >
-                            <input type="text" class="form-control " placeholder="nickname" aria-label="nickname" aria-describedby="basic-addon2"/>
+                            <input type="text" class="form-control " placeholder={nickName} aria-label="nickname" aria-describedby="basic-addon2"  onChange={handleChange}/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary button-game" type="button">Select</button>
                             </div>
@@ -27,21 +46,18 @@ export default class LandingGame extends React.Component{
                     </div>
                     <div className ="gamemodes">
                         <p>Choose Game mode</p>
-                        <button type="button" class="button-game button-landing" onClick={<Redirect to='/single' />}>SingleMode</button>
-                        <button type="button" class="button-game button-landing">VersusMode</button>                 
+                        <button to='./single' type="button" className=" button-game button-landing"onClick={clickSingleMode}>SingleMode</button>
+                        <button type="button" className="button-game button-landing">VersusMode</button>
                     </div>
                     <p>Rules</p>
                     <img src="https://zupher.files.wordpress.com/2012/02/bigbang51711.jpg" class="img-fluid rounded mx-auto d-block img-thumbnail" alt="Responsive image" />
                 </div>
-                
+
                 <div className ="footerLanding">
-                    <div className ="jumbotron jumbotron-fluid bg-primary jumbotron-footer" >
-                        <p>See the Making of this game !On react!</p>
-                    </div>
+                    <FooterGame/>
                 </div>
 
-            </div>           
+            </div>
           </>
         );
-    }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Choise({choice,choicepros}){
+export default function Choise({choice}){
     
     switch(choice){
        

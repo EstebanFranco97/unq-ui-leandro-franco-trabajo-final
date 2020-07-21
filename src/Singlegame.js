@@ -2,46 +2,46 @@ import React from 'react';
 import './Singlegame.css'
 import ChoiseSelectBar from './ChoisesSelectBar'
 import HeaderGame from './HeaderGame';
-
-const posibleResults ={
-                        rock : {name: "rock", defeats: ["scissors","lizard"]},
-                        paper: {name: "paper", defeats: ["rock", "spock"]},
-                        scissors: {name: "scissors", defeats: ["paper", "lizard"]},
-                        lizard: {name: "lizard", defeats:["paper","spock"]},
-                        spock: {name: "spock", defeats:["scissors","rock"]}
-};
+import FooterGame from './FooterGame';
 
 
 export default class Singlegame extends React.Component {
-  constructor(props){
-      super(props);
-      this.state={
-          player:{
-              playerId : "",
-              playerSelection : null 
-              },
-          ia:{
-              iaId : "sheldon",
-              iaSelection : null
-          },
+    constructor(props){
+        super(props);
+        this.state={
+            player:{
+                playerId :this.props.match.params.id,
+                playerSelection : null 
+            },
+            ai:{
+                aiId :"sheldon",
+                aiSelection : null
+            },
             winner:"",
             wins:0 ,
             loses:0 ,
             tie:0,
-          choices:["rock","paper","scissors","lizard","spock"],
-          result:"Waiting both choose one"
+            choices:["rock","paper","scissors","lizard","spock"],
         }
-        
+    }
+    
+  componentDidMount = () =>{
+    this.setState(prevState=>({
+                    player:{
+                            ...prevState.playerId,
+                            playerId : this.props.match.params.id
+                           }
+    }))
   }
- 
-  
+
+
   AIRandomPick = () =>{
-    return  this.state.choices[Math.floor(Math.random()*this.state.choices.length)];
+      return  this.state.choices[Math.floor(Math.random()*this.state.choices.length)];
   }
   
   
   getWinner =() =>{
-      if( this.state.player.playerSelection===this.state.ia.iaSelection){
+      if( this.state.player.playerSelection===this.state.ai.aiSelection){
           this.setState(prevState=>({
               ...prevState.winner,                     
               winner:"tie",
@@ -52,20 +52,20 @@ export default class Singlegame extends React.Component {
       }
       else
           if(
-          (this.state.player.playerSelection ==="rock" && (this.state.ia.iaSelection ==="scissors"||this.state.ia.iaSelection ==="lizard"))
+          (this.state.player.playerSelection ==="rock" && (this.state.ai.aiSelection ==="scissors"||this.state.ai.aiSelection ==="lizard"))
             ||
-          (this.state.player.playerSelection ==="paper" && (this.state.ia.iaSelection ==="rock"||this.state.ia.iaSelection ==="spock"))
+          (this.state.player.playerSelection ==="paper" && (this.state.ai.aiSelection ==="rock"||this.state.ai.aiSelection ==="spock"))
             ||
-          (this.state.player.playerSelection ==="scissors" && (this.state.ia.iaSelection ==="paper"||this.state.ia.iaSelection ==="lizard"))
+          (this.state.player.playerSelection ==="scissors" && (this.state.ai.aiSelection ==="paper"||this.state.ai.aiSelection ==="lizard"))
             ||
-          (this.state.player.playerSelection ==="lizard" && (this.state.ia.iaSelection ==="paper"||this.state.ia.iaSelection ==="spock"))
+          (this.state.player.playerSelection ==="lizard" && (this.state.ai.aiSelection ==="paper"||this.state.ai.aiSelection ==="spock"))
             ||
-          (this.state.player.playerSelection ==="spock" && (this.state.ia.iaSelection ==="rock"||this.state.ia.iaSelection ==="scissors"))
+          (this.state.player.playerSelection ==="spock" && (this.state.ai.aiSelection ==="rock"||this.state.ai.aiSelection ==="scissors"))
           )
           {
             this.setState(prevState=>({
                 ...prevState.winner,
-                winner:"user",
+                winner:this.state.player.playerId
             }),
             ()=>{
                   this.updateScore()
@@ -85,16 +85,16 @@ export default class Singlegame extends React.Component {
 
 
   updateResult = () =>{
-    switch (this.state.winner){
-      case "" : return <p>Waiting both choose </p> 
-      case "tie":return<p>game tied</p> 
-      case "user":return<p>You win {this.state.player.playerSelection} defeats {this.state.ia.iaSelection}</p>
-      case "sheldon":return<p>You lose {this.state.ia.iaSelection} defeats {this.state.player.playerSelection}</p>
-    }
+      switch (this.state.winner){
+          case "" : return<p>Waiting both choose </p> 
+          case "tie" :return<p>game tied</p> 
+          case this.state.player.playerId :return<p>{this.props.match.params.id} wins {this.state.player.playerSelection} defeats {this.state.ai.aiSelection}</p>
+          case "sheldon" :return<p> sheldon wins {this.state.ai.aiSelection} defeats {this.state.player.playerSelection}</p>
+      }
   }
 
    
-   updateScore = () =>{
+  updateScore = () =>{
     if (this.state.winner === "tie"){
         this.setState (prevState =>({
             ...prevState.tie,
@@ -104,7 +104,7 @@ export default class Singlegame extends React.Component {
         )
     }
     else{
-      if(this.state.winner === "user"){
+      if(this.state.winner === this.state.player.playerId){
         this.setState (prevState =>({
             ...prevState.wins,
             wins : this.state.wins +1
@@ -114,7 +114,7 @@ export default class Singlegame extends React.Component {
       else{
          this.setState (prevState =>({
             ...prevState.loses,
-            loses : this.state.loses+1
+            loses : this.state.loses +1
         })
         )
       }
@@ -128,9 +128,9 @@ export default class Singlegame extends React.Component {
                             ...prevState.player,
                             playerSelection : choice
                            },
-                    ia:{
-                        ...prevState.ia,
-                        iaSelection : this.AIRandomPick()
+                    ai:{
+                        ...prevState.ai,
+                        aiSelection : this.AIRandomPick()
                         }
                     }),
                     () => {
@@ -140,19 +140,28 @@ export default class Singlegame extends React.Component {
   }
 
   resetGame=()=>{
-    this.setState ({
+    this.setState (prevState=>({
                    player:{
+                           ...prevState.playerSelection,
                            playerSelection : null
                    },
-                   ia:{
-                     iaSelection : null
+                   ai:{
+                     ...prevState.aiSelection,
+                     aiSelection : null
                    },
+                    ...prevState.winner,
                     winner :"",
+                    ...prevState.wins,
                     wins : 0,
+                    ...prevState.loses,
                     loses : 0,
+                    ...prevState.tie,
                     tie : 0
-                  })
+                  }))
   }
+
+
+  click = () => this.props.history.push('/');
 
   
   
@@ -175,17 +184,17 @@ export default class Singlegame extends React.Component {
                 </div>
                 <ChoiseSelectBar selectChoise={this.selectPlayerChoise}/>
             </div>
-            <div className = "gameButtons">
+            <div className = "gameButtons2">
                 <button type ="button" className ="button-game button-rematch"onClick={()=>this.resetGame()}> Rematch </button>
-                <button type ="button" className ="button-game button-home" > Home </button>
+                <button type ="button" className ="button-game button-home" onClick ={this.click} > Home </button>
             </div>
-            <div className = "winner info-Result">
-                <p>{this.updateResult()}</p>
+           <div className = "winner info-Result">
+                {this.updateResult()}
            </div>
         </div>
 
         <div className = "footerSinglegame">
-
+            <FooterGame/>
         </div>
       
     </div>
