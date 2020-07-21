@@ -48,7 +48,6 @@ export default class Versusgame extends React.Component {
           }),
           ()=>{
                 this.updateScore()
-                 
               })
       }
       else
@@ -132,9 +131,7 @@ export default class Versusgame extends React.Component {
                             ...prevState.player,
                             playerSelection : choice
                            },
-                    ...prevState.showTurnPlayer2,
                     showTurnPlayer2:true,
-                    ...prevState.showTurnPlayer1,
                     showTurnPlayer1:false
                     }),
                     () => {
@@ -274,7 +271,7 @@ export default class Versusgame extends React.Component {
             }
             {
               this.state.showResult?
-                <div className = "results">
+                <div className = "resultsVersusGame">
                     <div className ="infoScore">
                         <p>score</p>
                         <p>wins1={playerwins}</p>
@@ -293,7 +290,7 @@ export default class Versusgame extends React.Component {
                         <Choise choice ={this.state.player2.player2Selection} />
                         player2
                     </div>
-                    <div className = "winner info-Result">
+                    <div className = "winnerVs info-Result">
                         {this.updateResult()}
                     </div>
                     <button type ="button" className ="buttonr button-game"onClick={()=>this.playAgain()}>play Again </button>

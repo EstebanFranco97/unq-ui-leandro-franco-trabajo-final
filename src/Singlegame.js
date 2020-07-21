@@ -1,8 +1,9 @@
 import React from 'react';
-import './Singlegame.css'
-import ChoiseSelectBar from './ChoisesSelectBar'
+import './Singlegame.css';
+import ChoiseSelectBar from './ChoisesSelectBar';
 import HeaderGame from './HeaderGame';
 import FooterGame from './FooterGame';
+import Choise from './Choise';
 
 
 export default class Singlegame extends React.Component {
@@ -22,6 +23,8 @@ export default class Singlegame extends React.Component {
             loses:0 ,
             tie:0,
             choices:["rock","paper","scissors","lizard","spock"],
+            showSingleGame:true,
+            showResultGame:false
         }
     }
     
@@ -128,16 +131,19 @@ export default class Singlegame extends React.Component {
                             ...prevState.player,
                             playerSelection : choice
                            },
-                    ai:{
-                        ...prevState.ai,
-                        aiSelection : this.AIRandomPick()
-                        }
+                        ai:{
+                            ...prevState.ai,
+                            aiSelection : this.AIRandomPick()
+                           },
+                      showSingleGame:false,     
+                      showResultGame:true     
                     }),
                     () => {
                      this.getWinner ()
                      }
     )
   }
+
 
   resetGame=()=>{
     this.setState (prevState=>({
@@ -162,18 +168,26 @@ export default class Singlegame extends React.Component {
 
 
   click = () => this.props.history.push('/');
+  
+  
+  playAgain = () =>{
+    this.setState({ 
+                  showResultGame: false,
+                  showSingleGame: true
+                  })
+  }
 
-  
-  
+   
   render(){
-   const{wins,loses,tie,result,choices}=this.state
+   const{wins,loses,tie}=this.state
 
     return(
       <div className ="containerGame">
         <div className = "headerSinglegame">
             <HeaderGame/>             
         </div>
-
+        {
+          this.state.showSingleGame?
         <div className = "bodySinglegame">
             <div className ="gameInfo">
                 <div className ="info">
@@ -186,18 +200,44 @@ export default class Singlegame extends React.Component {
             </div>
             <div className = "gameButtons2">
                 <button type ="button" className ="button-game button-rematch"onClick={()=>this.resetGame()}> Rematch </button>
-                <button type ="button" className ="button-game button-home" onClick ={this.click} > Home </button>
+                <button type ="button" className ="button-game button-home" onClick ={()=>this.click()} > Home </button>
             </div>
            <div className = "winner info-Result">
                 {this.updateResult()}
            </div>
         </div>
-
+        :null 
+        }
+        {
+          this.state.showResultGame?
+            <div className = "resultsSingleGame">
+                <div className ="info">
+                    <p>score</p>
+                    <p>wins={wins}</p>                      
+                    <p>loses={loses}</p>
+                    <p>tie={tie}</p>
+                </div>
+                <div className = "playerChoice">
+                    <Choise choice = {this.state.player.playerSelection}/>;
+                    { this.props.match.params.id}
+                </div>
+                <div className = "aiChoice">
+                    <Choise choice ={this.state.ai.aiSelection} />
+                    sheldon                    
+                </div>
+                <div className = "winnerSingle info-Result">
+                    {this.updateResult()}
+                </div>
+                <button type ="button" className ="buttonr button-game" onClick={()=>this.playAgain()}>Play Again </button>
+                <button type ="button" className ="buttonh button-game " onClick ={this.click} > Home </button>
+            </div>
+          :null 
+        } 
         <div className = "footerSinglegame">
             <FooterGame/>
         </div>
       
-    </div>
+      </div>
     )
   }
 }
